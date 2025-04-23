@@ -4,7 +4,7 @@ from flask import abort, Flask, redirect, render_template, request, Response, ur
 from flask_login import current_user, LoginManager, login_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm, PostForm, SignupForm
+from app.forms import LoginForm, PostForm, SignupForm
 
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ login_manager.login_view = "login"
 db = SQLAlchemy(app)
 
 
-from models import User, Post
+from app.models import User, Post
 
 
 @app.route("/")
