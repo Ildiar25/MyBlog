@@ -1,17 +1,27 @@
+import os
+from enum import Enum
+
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+
+
+class AppConfig(Enum):
+    DEV = "development.py"
+    PROD = "production.py"
+    TEST = "testing.py"
+    DEFAULT = "default.py"
 
 
 login_manager = LoginManager()
 db = SQLAlchemy()
 
 
-def create_app() -> Flask:
+def create_app(config: AppConfig = AppConfig.DEFAULT) -> Flask:
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe"
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///../instance/database.db"
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app_config = os.path.join(os.getcwd(), "config", config.value)
+    print(app_config)
+    app.config.from_pyfile(app_config)
 
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"

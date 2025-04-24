@@ -1,10 +1,8 @@
-from app import db, create_app
-from app.public.models import Post
-from app.auth.models import User
+from app import AppConfig, db, create_app
 
 
 def main():
-    app = create_app()
+    app = create_app(AppConfig.DEV)
     with app.app_context():
         db.create_all()
 
