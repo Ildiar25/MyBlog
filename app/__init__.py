@@ -3,6 +3,7 @@ from enum import Enum
 
 from flask import Flask, render_template
 from flask_login import LoginManager
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import InternalServerError, NotFound, Unauthorized
 
@@ -16,6 +17,7 @@ class AppConfig(Enum):
 
 login_manager = LoginManager()
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def register_errors_handler(app: Flask) -> None:
@@ -42,6 +44,9 @@ def create_app(config: AppConfig = AppConfig.DEFAULT) -> Flask:
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
     db.init_app(app)
+
+    # Init migration
+    migrate.init_app(app, db)
 
     # noinspection PyPep8
     from .public import public
