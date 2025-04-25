@@ -1,6 +1,7 @@
 from flask import redirect, render_template, Response, url_for
 from flask_login import current_user, login_required
 
+from app.auth.decorators import admin_required
 from app.public.models import Post
 
 from . import admin
@@ -10,6 +11,7 @@ from .forms import PostForm
 @admin.route("/admin/post/", methods=["GET", "POST"])
 @admin.route("/admin/post/<string:slug>/", methods=["GET", "POST"])
 @login_required
+@admin_required
 def edit_post(slug: str | None) -> Response | str:
     form = PostForm()
 
