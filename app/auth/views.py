@@ -1,5 +1,4 @@
 from urllib.parse import urlparse
-from uuid import UUID
 
 from flask import redirect, render_template, request, Response, url_for
 from flask_login import current_user, login_user, logout_user
@@ -27,6 +26,9 @@ def login() -> Response | str:
         else:
             if user.check_password(form.password.data):
                 login_user(user, remember=form.remember_me.data)
+                user.update_last_login()
+                user.save()
+
                 next_page = request.args.get("next")
 
                 if not next_page or urlparse(next_page).netloc != "":
@@ -80,4 +82,4 @@ def signup() -> Response | str:
 
 @login_manager.user_loader
 def user_loader(user_id: str) -> User | None:
-    return User.get_by_user_id(UUID(user_id))
+    return User.get_by_user_id(user_id)

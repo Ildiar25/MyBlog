@@ -4,7 +4,7 @@ from datetime import datetime
 
 from flask import url_for
 from slugify import slugify
-from sqlalchemy import ForeignKey, String, Text, UUID
+from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -18,9 +18,9 @@ class Post(db.Model):
     __tablename__: str = "post"
 
     # Column settings
-    post_id: Mapped[UUID] = mapped_column(UUID(), primary_key=True)
-    user_id: Mapped[UUID] = mapped_column(
-        UUID(),
+    post_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(
+        String(36),
         ForeignKey(column="user.user_id", ondelete="CASCADE"),
         nullable=False,
         index=True
@@ -32,7 +32,7 @@ class Post(db.Model):
     modified: Mapped[datetime]
 
     # Initializer
-    def __init__(self, title: str, content: str, user_id: UUID) -> None:
+    def __init__(self, title: str, content: str, user_id: str) -> None:
         self.title = title
         self.content = content
         self.user_id = user_id
@@ -76,7 +76,7 @@ class Post(db.Model):
 
     def __update_post(self) -> None:
         if not self.post_id:
-            self.post_id = uuid.uuid4()
+            self.post_id = str(uuid.uuid4())
             db.session.add(self)
 
         if not self.slug_title:

@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 
 from flask_login import UserMixin
-from sqlalchemy import Boolean, String, UUID
+from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -17,13 +17,14 @@ class User(db.Model, UserMixin):
     __tablename__: str = "user"
 
     # Column settings
-    user_id: Mapped[UUID] = mapped_column(UUID(), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(36), primary_key=True)
     fullname: Mapped[str] = mapped_column(String(80), nullable=False)
     email: Mapped[str] = mapped_column(String(256), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(128), nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean(), default=False)
     created: Mapped[datetime]
     modified: Mapped[datetime]
+    last_login: Mapped[datetime | None]
 
     def __init__(self, fullname: str, email: str) -> None:
         self.fullname = fullname
@@ -35,6 +36,9 @@ class User(db.Model, UserMixin):
     def check_password(self, password: str) -> bool:
         return check_password_hash(self.password, password)
 
+    def update_last_login(self) -> None:
+        self.last_login = datetime.now()
+
     def save(self) -> None:
         self.__update_user()
         db.session.commit()
@@ -44,7 +48,7 @@ class User(db.Model, UserMixin):
         return str(self.user_id)
 
     @staticmethod
-    def get_by_user_id(user_id: UUID) -> User:
+    def get_by_user_id(user_id: str) -> User:
         return User.query.get(user_id)
 
     @staticmethod
@@ -53,7 +57,7 @@ class User(db.Model, UserMixin):
 
     def __update_user(self) -> None:
         if not self.user_id:
-            self.user_id = uuid.uuid4()
+            self.user_id = str(uuid.uuid4())
             db.session.add(self)
 
         if not self.created:

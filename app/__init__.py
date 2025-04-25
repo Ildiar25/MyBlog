@@ -35,10 +35,9 @@ def register_errors_handler(app: Flask) -> None:
         return render_template("internal_server_error.html"), 500
 
 
-def create_app(config: AppConfig = AppConfig.DEFAULT) -> Flask:
+def create_app(config: AppConfig) -> Flask:
     app = Flask(__name__)
     app_config = os.path.join(os.getcwd(), "config", config.value)
-    print(app_config)
     app.config.from_pyfile(app_config)
 
     login_manager.init_app(app)
