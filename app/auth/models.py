@@ -30,6 +30,10 @@ class User(db.Model, UserMixin):
         self.fullname = fullname
         self.email = email
 
+    @property
+    def get_user_id(self) -> str:
+        return self.user_id
+
     def set_password(self, password: str) -> None:
         self.password = generate_password_hash(password)
 
@@ -41,6 +45,10 @@ class User(db.Model, UserMixin):
 
     def save(self) -> None:
         self.__update_user()
+        db.session.commit()
+
+    def delete(self) -> None:
+        db.session.delete(self)
         db.session.commit()
 
     # This method overrides UserMixin

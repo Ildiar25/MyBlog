@@ -2,7 +2,6 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from flask import url_for
 from slugify import slugify
 from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.exc import IntegrityError
@@ -37,6 +36,14 @@ class Post(db.Model):
         self.content = content
         self.user_id = user_id
 
+    @property
+    def get_post_id(self) -> str:
+        return self.post_id
+
+    @property
+    def get_user_id(self) -> str:
+        return self.user_id
+
     def save(self) -> None:
         self.__update_post()
 
@@ -59,8 +66,9 @@ class Post(db.Model):
                 # Adds object to session again
                 db.session.add(self)
 
-    def public_url(self) -> str:
-        return url_for(endpoint="show_posts", slug=self.slug_title)
+    def delete(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
 
     @staticmethod
     def get_by_slug(slug: str) -> Post | None:
