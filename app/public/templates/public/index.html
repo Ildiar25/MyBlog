@@ -5,7 +5,7 @@
 {% block content %}
 <ul>
     {% for post in posts %}
-    <li>{{ post.title }}</li>
+    <li><a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.title }}</a></li>
     {% else %}
     <li>No hay entradas</li>
     {% endfor %}
