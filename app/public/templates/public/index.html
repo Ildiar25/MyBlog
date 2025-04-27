@@ -6,6 +6,8 @@
 <ul>
     {% for post in posts %}
     <li>{{ post.title }}</li>
+    {% else %}
+    <li>No hay entradas</li>
     {% endfor %}
 </ul>
 {% endblock %}

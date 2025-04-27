@@ -15,11 +15,6 @@ class AppConfig(Enum):
     DEFAULT = "default.py"
 
 
-login_manager = LoginManager()
-db = SQLAlchemy()
-migrate = Migrate()
-
-
 def register_errors_handler(app: Flask) -> None:
 
     @app.errorhandler(401)
@@ -63,3 +58,8 @@ def create_app(config: AppConfig) -> Flask:
     register_errors_handler(app)
 
     return app
+
+
+login_manager = LoginManager()
+db = SQLAlchemy()
+migrate = Migrate()
