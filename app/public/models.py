@@ -47,9 +47,17 @@ class Post(db.Model):
             try:
                 db.session.commit()
                 saved = True
+
             except IntegrityError:
+                # Sets new title slug
                 counter += 1
                 self.slug_title = f"{slugify(self.title)}-{counter}"
+
+                # Cleans session error
+                db.session.rollback()
+
+                # Adds object to session again
+                db.session.add(self)
 
     def public_url(self) -> str:
         return url_for(endpoint="show_posts", slug=self.slug_title)
