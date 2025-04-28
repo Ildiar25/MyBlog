@@ -10,10 +10,23 @@
     </div>
     <h2>Listado de entradas</h2>
     <ul>
-    {% for post in posts %}
+    {% for post in post_pagination.items %}
         <li>
             <a href="{{ url_for('admin.update_post', slug=post.slug_title) }}">{{ post.title }}</a>
         </li>
     {% endfor %}
     </ul>
+    <div class=pagination>
+        {% for page in post_pagination.iter_pages() %}
+            {% if page %}
+                {% if page != post_pagination.page %}
+                    <a href="{{ url_for('admin.show_postlist', page=page) }}">{{ page }}</a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                <span class=ellipsis>…</span>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}

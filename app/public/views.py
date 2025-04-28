@@ -1,4 +1,4 @@
-from flask import abort, render_template, Response
+from flask import abort, current_app, render_template, request, Response
 
 from app.auth.models import User
 
@@ -8,8 +8,10 @@ from .models import Post
 
 @public.route("/")
 def index() -> Response | str:
-    posts = Post.get_all()
-    return render_template(template_name_or_list="index.html", posts=posts)
+    page = int(request.args.get("page", 1))
+    per_page = current_app.config['ITEMS_PER_PAGE']
+    post_pagination = Post.all_paginated(page=page, per_page=per_page)
+    return render_template(template_name_or_list="index.html", post_pagination=post_pagination)
 
 
 @public.route("/p/<string:slug>/")

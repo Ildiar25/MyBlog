@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime
 
 from flask_login import UserMixin
+from flask_sqlalchemy.pagination import Pagination
 from sqlalchemy import Boolean, select, String
 from sqlalchemy.orm import Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -69,6 +70,11 @@ class User(db.Model, UserMixin):
     def get_all() -> list[User]:
         statement = select(User)
         return db.session.scalars(statement).all()
+
+    @staticmethod
+    def all_paginated(page: int = 1, per_page: int = 20) -> Pagination:
+        statement = select(User).order_by(User.created.asc())
+        return db.paginate(statement, page=page, per_page=per_page)
 
     def __update_user(self) -> None:
         if not self.user_id:

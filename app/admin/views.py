@@ -1,4 +1,4 @@
-from flask import abort, redirect, render_template, Response, url_for
+from flask import abort, current_app, redirect, render_template, request, Response, url_for
 from flask_login import current_user, login_required
 
 from app.auth.decorators import admin_required
@@ -20,8 +20,10 @@ def index() -> str:
 @login_required
 @admin_required
 def show_postlist() -> str:
-    posts = Post.get_all()
-    return render_template(template_name_or_list="posts.html", posts=posts)
+    page = int(request.args.get("page", 1))
+    per_page = current_app.config['ITEMS_PER_PAGE']
+    post_pagination = Post.all_paginated(page=page, per_page=per_page)
+    return render_template(template_name_or_list="posts.html", post_pagination=post_pagination)
 
 
 @admin.route("/admin/new/", methods=["GET", "POST"])
@@ -79,8 +81,10 @@ def delete_post(slug: str) -> Response:
 @login_required
 @admin_required
 def show_userlist() -> str:
-    users = User.get_all()
-    return render_template(template_name_or_list="users.html", users=users)
+    page = int(request.args.get("page", 1))
+    per_page = current_app.config['ITEMS_PER_PAGE']
+    user_pagination = User.all_paginated(page=page, per_page=per_page)
+    return render_template(template_name_or_list="users.html", user_pagination=user_pagination)
 
 
 @admin.route("/admin/user/<string:user_id>/", methods=["GET", "POST"])
