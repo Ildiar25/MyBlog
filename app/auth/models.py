@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime
 
 from flask_login import UserMixin
-from sqlalchemy import Boolean, String
+from sqlalchemy import Boolean, select, String
 from sqlalchemy.orm import Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -57,15 +57,18 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def get_by_user_id(user_id: str) -> User:
-        return User.query.get(user_id)
+        statement = select(User).where(User.user_id == user_id)
+        return db.session.scalars(statement).first()
 
     @staticmethod
     def get_by_email(email: str) -> User | None:
-        return User.query.filter_by(email=email).first()
+        statement = select(User).where(User.email == email)
+        return db.session.scalars(statement).first()
 
     @staticmethod
     def get_all() -> list[User]:
-        return User.query.all()
+        statement = select(User)
+        return db.session.scalars(statement).all()
 
     def __update_user(self) -> None:
         if not self.user_id:

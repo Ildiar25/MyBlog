@@ -2,8 +2,9 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
+from flask_sqlalchemy.pagination import Pagination
 from slugify import slugify
-from sqlalchemy import ForeignKey, String, Text
+from sqlalchemy import ForeignKey, select, String, Text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -72,11 +73,18 @@ class Post(db.Model):
 
     @staticmethod
     def get_by_slug(slug: str) -> Post | None:
-        return Post.query.filter_by(slug_title=slug).first()
+        statement = select(Post).where(Post.slug_title == slug)
+        return db.session.scalars(statement).first()
 
     @staticmethod
     def get_all() -> list[Post]:
-        return Post.query.all()
+        statement = select(Post)
+        return db.session.scalars(statement).all()
+
+    @staticmethod
+    def all_paginated(page: int = 1, per_page: int = 20) -> Pagination:
+        statement = select(Post).order_by(Post.created.asc())
+        return db.paginate(statement, page=page, per_page=per_page)
 
     def __repr__(self) -> str:
         return (
