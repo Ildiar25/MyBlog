@@ -50,3 +50,47 @@ sup, sub {
     margin: 0;
     padding: 0 10px 0 0;
 }
+
+body {
+    margin: 0 auto;
+    width: 864px;
+    padding: 40px 80px 60px;
+    color: #111;
+    font: normal 15px / 22px Georgia, serif;
+}
+
+#stat-articles {
+    overflow: hidden;
+    padding: 30px 0 40px;
+    width: 510px;
+    padding-right: 17px;
+    border-right: 1px solid #EEE;
+}
+
+#stat-header {
+    text-align: center;
+    border-bottom: 1px solid #EEE;
+    padding-bottom: 30px;
+    text-shadow: 0 1px 0 #FFF;
+}
+
+#stat-navigation {
+    clear: both;
+    font: normal 20px / 22px Georgia, serif;
+    border-top: 1px solid #EEE;
+    padding: 40px 0 30px;
+    text-align: center;
+}
+
+#stat-sidebar {
+    padding: 30px 0 40px;
+    float: right;
+    width: 260px
+}
+
+#stat-wrapper {
+    overflow: auto;
+    width: 804px;
+    padding: 30px;
+    background-color: #F9F9F9;
+}
