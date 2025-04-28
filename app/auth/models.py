@@ -63,6 +63,10 @@ class User(db.Model, UserMixin):
     def get_by_email(email: str) -> User | None:
         return User.query.filter_by(email=email).first()
 
+    @staticmethod
+    def get_all() -> list[User]:
+        return User.query.all()
+
     def __update_user(self) -> None:
         if not self.user_id:
             self.user_id = str(uuid.uuid4())
