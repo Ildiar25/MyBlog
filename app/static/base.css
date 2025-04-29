@@ -58,7 +58,9 @@ body {
     color: #111;
     font: normal 15px / 22px Georgia, serif;
 }
-
+.stat-notes {
+    float: right;
+}
 #stat-articles {
     overflow: hidden;
     padding: 30px 0 40px;

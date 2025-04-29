@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}POST{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<h1>{{ post.title }}</h1>
-<h3>Última modificación: {{ post.modified }}</h3>
-<p>{{ post.content }}</p>
-<span>Created by: {{ user.fullname }}</span>
+<article>
+    <header>
+        <p class="stat-notes">Comentarios: # Número de comentarios #</p>
+        <time datetime="{{ post.modified.strftime('%d-%m-%Y') }}" pubdate>
+            <a rel="bookmark" href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.created.strftime('%d-%m-%Y') }}</a>
+        </time>
+        <h1><a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.title }}</a></h1>
+    </header>
+    <section>
+        <p>{{ post.content }}</p>
+    </section>
+</article>
 {% endblock %}

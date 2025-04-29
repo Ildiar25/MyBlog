@@ -10,17 +10,17 @@
     <li>No hay entradas</li>
     {% endfor %}
 </ul>
-<div class=pagination>
-        {%- for page in post_pagination.iter_pages() %}
-            {% if page %}
-                {% if page != post_pagination.page %}
-                    <a href="{{ url_for('public.index', page=page) }}">{{ page }}</a>
-                {% else %}
-                    <strong>{{ page }}</strong>
-                {% endif %}
+<nav id="stat-navigation">
+    {%- for page in post_pagination.iter_pages() %}
+        {% if page %}
+            {% if page != post_pagination.page %}
+                <a href="{{ url_for('public.index', page=page) }}">{{ page }}</a>
             {% else %}
-                <span class=ellipsis>…</span>
+                <strong>{{ page }}</strong>
             {% endif %}
-        {%- endfor %}
-    </div>
+        {% else %}
+            <span class=ellipsis>…</span>
+        {% endif %}
+    {%- endfor %}
+</nav>
 {% endblock %}
