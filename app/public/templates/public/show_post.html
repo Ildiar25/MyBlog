@@ -5,9 +5,9 @@
 {% block content %}
 <article>
     <header>
-        <p class="stat-notes">Comentarios: # Número de comentarios #</p>
-        <time datetime="{{ post.modified.strftime('%d-%m-%Y') }}" pubdate>
-            <a rel="bookmark" href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.created.strftime('%d-%m-%Y') }}</a>
+        <p class="stat-notes">Comentarios: {{ post.comments|length }}</p>
+        <time datetime="{{ post.modified|datetime('european') }}">
+            <a rel="bookmark" href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.modified|datetime('european') }}</a>
         </time>
         <h1><a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.title }}</a></h1>
     </header>
@@ -15,4 +15,40 @@
         <p>{{ post.content }}</p>
     </section>
 </article>
+<section>
+    <h2>Comentarios</h2>
+    {% if current_user.is_authenticated %}
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.content.label }}
+            {{ form.content }}
+            {% for error in form.content.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit }}
+        </div>
+    </form>
+    {% endif %}
+    <div>
+        {% for comment in post.comments %}
+        <div>
+            <div>
+                <div class="avatar">
+                    <img src="static/profile.jpg">
+                </div>
+            </div>
+            <div class="comment-content">
+                <div>{{ comment.user_name }} comentó: </div>
+                <div class="stat-notes">{{ post.created|datetime('british') }}</div>
+            </div>
+            <div>
+                <p>{{ comment.content }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

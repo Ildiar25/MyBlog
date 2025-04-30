@@ -61,6 +61,9 @@ body {
 .stat-notes {
     float: right;
 }
+.avatar {
+    float: left;
+}
 #stat-articles {
     overflow: hidden;
     padding: 30px 0 40px;
