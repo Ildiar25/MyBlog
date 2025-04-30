@@ -5,7 +5,7 @@ from datetime import datetime
 from flask_login import UserMixin
 from flask_sqlalchemy.pagination import Pagination
 from sqlalchemy import Boolean, select, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
