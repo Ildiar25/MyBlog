@@ -61,6 +61,10 @@ class Comment(db.Model):
         statement = select(User.fullname).where(User.user_id == self.user_id)
         return db.session.scalar(statement)
 
+    def get_profile_pic(self) -> str:
+        statement = select(User.profile_pic).where(User.user_id == self.user_id)
+        return db.session.scalar(statement)
+
     @staticmethod
     def get_by_post_id(post_id: str) -> list[Comment]:
         statement = select(Comment).where(Comment.post_id == post_id)
