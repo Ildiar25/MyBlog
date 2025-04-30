@@ -1,7 +1,8 @@
 from datetime import datetime
+from babel.dates import format_datetime
 
 
-def format_datetime(value: datetime | None, date_format: str = "european") -> str:
+def give_format_to_date(value: datetime | None, date_format: str = "european") -> str:
     """"""
 
     value_str = ""
@@ -10,10 +11,10 @@ def format_datetime(value: datetime | None, date_format: str = "european") -> st
         return value_str
 
     elif date_format == "british":
-        return value.strftime("%A, %d de %b de %Y")
+        return format_datetime(value, format="EEEE, dd 'de' MMMM 'de' yyyy", locale="es").capitalize()
 
     elif date_format == "european":
-        return value.strftime("%d/%m/%Y")
+        return format_datetime(value, format="dd/MM/yy, HH:mm", locale="es")
 
     else:
-        return value.strftime("%d-%m-%YT%H:%M:%S")
+        return format_datetime(value, format="dd-MM-yyyy'T'HH:mm:ssZ", locale="es")
