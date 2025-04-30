@@ -36,8 +36,8 @@
         {% for comment in post.comments %}
         <div>
             <div>
-                <div class="avatar">
-                    <img src="static/profile.jpg">
+                <div class="avatar" style="width: 32px; height: 32px;">
+                    <img src="{{ url_for('media_profile', profile_pic=comment.get_profile_pic()) }}" width="32px">
                 </div>
             </div>
             <div class="comment-content">
