@@ -27,9 +27,7 @@ def show_posts(slug: str):
 
     if current_user.is_authenticated and form.validate_on_submit():
         content = form.content.data
-        comment = Comment(
-            user_name=current_user.fullname, content=content, user_id=current_user.user_id, post_id=post.post_id
-        )
+        comment = Comment(content=content, user_id=current_user.user_id, post_id=post.post_id)
         comment.save()
 
         return redirect(url_for(endpoint='public.show_posts', slug=post.slug_title))

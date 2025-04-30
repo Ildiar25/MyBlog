@@ -41,8 +41,8 @@
                 </div>
             </div>
             <div class="comment-content">
-                <div>{{ comment.user_name }} comentó: </div>
-                <div class="stat-notes">{{ post.created|datetime('british') }}</div>
+                <div>{{ comment.get_user_name() }} comentó: </div>
+                <div class="stat-notes">{{ comment.created|datetime('british') }}</div>
             </div>
             <div>
                 <p>{{ comment.content }}</p>

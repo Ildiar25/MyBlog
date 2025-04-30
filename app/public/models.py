@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app import db
+from app.auth.models import User
 
 
 class Comment(db.Model):
@@ -31,7 +32,7 @@ class Comment(db.Model):
         nullable=False,
         index=True
     )
-    user_name: Mapped[str] = mapped_column(String(80), nullable=False)
+    # user_name: Mapped[str] = mapped_column(String(80), nullable=False)
     content: Mapped[str] = mapped_column(Text())
     created: Mapped[datetime]
     modified: Mapped[datetime]
@@ -43,8 +44,7 @@ class Comment(db.Model):
     )
 
     # Initializer
-    def __init__(self, user_name: str, content: str, user_id: str, post_id: str) -> None:
-        self.user_name = user_name
+    def __init__(self, content: str, user_id: str, post_id: str) -> None:
         self.content = content
         self.user_id = user_id
         self.post_id = post_id
@@ -56,6 +56,10 @@ class Comment(db.Model):
     def delete(self) -> None:
         db.session.delete(self)
         db.session.commit()
+
+    def get_user_name(self) -> str:
+        statement = select(User.fullname).where(User.user_id == self.user_id)
+        return db.session.scalar(statement)
 
     @staticmethod
     def get_by_post_id(post_id: str) -> list[Comment]:
