@@ -7,7 +7,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import InternalServerError, NotFound, Unauthorized
 
-from .common.filters import format_datetime
+from .common.filters import give_format_to_date
+
 
 class AppConfig(Enum):
     DEV = "development.py"
@@ -17,7 +18,7 @@ class AppConfig(Enum):
 
 
 def register_filters(app: Flask) -> None:
-    app.jinja_env.filters['datetime'] = format_datetime
+    app.jinja_env.filters['datetime'] = give_format_to_date
 
 
 def register_errors_handler(app: Flask) -> None:
