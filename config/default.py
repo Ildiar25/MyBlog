@@ -2,14 +2,15 @@ from pathlib import Path
 from typing import Final
 
 # Define app directories
-BASE_DIR: Path = Path(__file__).parent.parent
-MEDIA_DIR: Path = BASE_DIR.joinpath("media")
-USER_MEDIA: Path = MEDIA_DIR.joinpath("user_media")
-POST_MEDIA: Path = MEDIA_DIR.joinpath("post_media")
+BASE_DIR: Final[Path] = Path(__file__).parent.parent
+MEDIA_DIR: Final[Path] = BASE_DIR.joinpath("media")
+USER_MEDIA: Final[Path] = MEDIA_DIR.joinpath("user_media")
+POST_MEDIA: Final[Path] = MEDIA_DIR.joinpath("post_media")
 
 # Default settings
 DEBUG: Final[bool] = False
 SECRET_KEY: Final[str] = "default"
+APP_ENV: Final[str] = "local"
 
 # Database settings
 SQLALCHEMY_DATABASE_URI: Final[str] = "sqlite:///:memory:"
@@ -19,6 +20,11 @@ SQLALCHEMY_TRACK_MODIFICATIONS: Final[bool] = False
 ITEMS_PER_PAGE = 10
 
 # Email settings
-
-print(BASE_DIR)
-print(MEDIA_DIR)
+MAIL_HOST: Final[str] = "localhost"
+MAIL_PORT: Final[int] = 1025
+MAIL_USERNAME: Final[str] = ""
+MAIL_PASSWORD: Final[str] = ""
+DONT_REPLY_FROM: Final[str] = "app_email@example.com"
+ADMINS: Final[tuple[str]] = ("joan@gmail.com", )
+MAIL_USE_TLS: Final[bool] = True
+MAIL_DEBUG: Final[bool] = False
