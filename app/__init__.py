@@ -53,17 +53,17 @@ def __logger_settings(app: Flask) -> None:
     handlers.append(console_handler)
 
     # Mail handler
-    # if app.config["APP_ENV"] == "production":
-    mail_handler = SMTPHandler(
-        mailhost=(app.config["MAIL_HOST"], app.config["MAIL_PORT"]),
-        fromaddr=app.config["DONT_REPLY_FROM"],
-        toaddrs=app.config["ADMINS"],
-        subject=f"[Error][{app.config['APP_ENV']}] La aplicación falló",
-        # credentials=(app.config["MAIL_USERNAME"], app.config["MAIL_PASSWORD"])
-    )
-    mail_handler.setLevel(ERROR)
-    mail_handler.setFormatter(__set_email_format_string())
-    handlers.append(mail_handler)
+    if app.config["APP_ENV"] == "production":
+        mail_handler = SMTPHandler(
+            mailhost=(app.config["MAIL_HOST"], app.config["MAIL_PORT"]),
+            fromaddr=app.config["DONT_REPLY_FROM"],
+            toaddrs=app.config["ADMINS"],
+            subject=f"[Error][{app.config['APP_ENV']}] La aplicación falló",
+            # credentials=(app.config["MAIL_USERNAME"], app.config["MAIL_PASSWORD"])
+        )
+        mail_handler.setLevel(ERROR)
+        mail_handler.setFormatter(__set_email_format_string())
+        handlers.append(mail_handler)
 
     for log in loggers:
         for handler in handlers:
