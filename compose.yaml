@@ -1,0 +1,8 @@
+
+services:
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1025:1025" # SMTP port
+      - "1080:1080" # Web interface port
+    restart: unless-stopped
