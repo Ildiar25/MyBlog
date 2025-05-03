@@ -30,7 +30,7 @@ class BaseTestClass(unittest.TestCase):
         self.app = create_app(AppConfig.TEST)
         self.client = self.app.test_client()
         self.user_admin = UserBuilder().with_name("Admin").with_email("admin@email.com").is_admin().build()
-        self.user_client = UserBuilder().with_name("Client").with_email("client@email.com").build()
+        self.user_client = UserBuilder().with_name("Client").with_email("user@email.com").build()
 
         # Main ID's
         self.admin_id = None
