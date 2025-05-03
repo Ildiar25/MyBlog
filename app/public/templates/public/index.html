@@ -3,24 +3,47 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<ul>
-    {% for post in post_pagination.items %}
-    <li><a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.title }}</a></li>
-    {% else %}
-    <li>No hay entradas</li>
-    {% endfor %}
-</ul>
-<nav id="stat-navigation">
-    {%- for page in post_pagination.iter_pages() %}
-        {% if page %}
-            {% if page != post_pagination.page %}
-                <a href="{{ url_for('public.index', page=page) }}">{{ page }}</a>
-            {% else %}
-                <strong>{{ page }}</strong>
-            {% endif %}
+<header id="stat-header">
+    <hgroup>
+        <h1>
+            <a href="{{ url_for('public.index') }}" title="Inicio">Mi Blog</a>
+        </h1>
+        <h2>Escrito por {{ owner.fullname }}</h2>
+    </hgroup>
+</header>
+<aside id="stat-sidebar">
+    <section>
+        <img src="{{ url_for('media_profile', profile_pic=owner.profile_pic) }}">
+        <h2>Sobre mí</h2>
+        <div>
+            # Info acerca del propietario #
+        </div>
+    </section>
+    <section>
+        <p># Barra de búsqueda #</p>
+    </section>
+    <section></section>
+</aside>
+<section id="stat-articles">
+    <ul>
+        {% for post in post_pagination.items %}
+        <li><a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.title }}</a></li>
         {% else %}
-            <span class=ellipsis>…</span>
-        {% endif %}
-    {%- endfor %}
-</nav>
+        <li>No hay entradas</li>
+        {% endfor %}
+    </ul>
+    <nav id="stat-navigation">
+        {%- for page in post_pagination.iter_pages() %}
+            {% if page %}
+                {% if page != post_pagination.page %}
+                    <a href="{{ url_for('public.index', page=page) }}">{{ page }}</a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                <span class=ellipsis>…</span>
+            {% endif %}
+        {%- endfor %}
+    </nav>
+</section>
 {% endblock %}
