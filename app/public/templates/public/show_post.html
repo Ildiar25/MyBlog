@@ -7,7 +7,7 @@
     <header>
         <p class="stat-notes">Comentarios: {{ post.comments|length }}</p>
         <time datetime="{{ post.modified|datetime('european') }}">
-            <a rel="bookmark" href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.modified|datetime('european') }}</a>
+            <a rel="bookmark" href="{{ url_for('public.archive', date=post.created) }}">{{ post.modified|datetime('european') }}</a>
         </time>
         <h1><a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.title }}</a></h1>
     </header>

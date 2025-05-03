@@ -13,7 +13,8 @@ def index() -> Response | str:
     page = int(request.args.get("page", 1))
     per_page = current_app.config['ITEMS_PER_PAGE']
     post_pagination = Post.all_paginated(page=page, per_page=per_page)
-    return render_template(template_name_or_list="index.html", post_pagination=post_pagination)
+    owner = User.get_by_email(current_app.config["WEB_OWNER"])
+    return render_template(template_name_or_list="index.html", post_pagination=post_pagination, owner=owner)
 
 
 @public.route("/p/<string:slug>/", methods=["GET", "POST"])
@@ -33,3 +34,12 @@ def show_posts(slug: str):
         return redirect(url_for(endpoint='public.show_posts', slug=post.slug_title))
 
     return render_template(template_name_or_list="show_post.html", post=post, form=form)
+
+
+@public.route("/p/archive/<string:date>")
+def archive(date: str) -> Response | str:
+    print(date)
+    print(type(date))
+    posts = Post.get_by_date(date)
+
+    return render_template(template_name_or_list="archive.html", posts=posts)

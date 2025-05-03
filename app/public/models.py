@@ -160,6 +160,10 @@ class Post(db.Model):
         db.session.commit()
 
     @staticmethod
+    def get_by_date(date: str):
+        return []
+
+    @staticmethod
     def get_by_slug(slug: str) -> Post | None:
         statement = select(Post).where(Post.slug_title == slug)
         return db.session.scalars(statement).first()
