@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ current_user.fullname }}{% endblock %}
+
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.fullname.label }}
+        {{ form.fullname }}<br>
+    </div>
+    <div>
+        <label for="profile_pic">Foto de perfil:</label>
+        <input type="file" id="profile_pic" name="profile_pic" accept="image/png, image/jpeg">
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock %}
