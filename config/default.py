@@ -25,6 +25,7 @@ MAIL_PORT: Final[int] = 1025
 MAIL_USERNAME: Final[str] = ""
 MAIL_PASSWORD: Final[str] = ""
 DONT_REPLY_FROM: Final[str] = "app_email@example.com"
+WEB_OWNER: Final[str] = "joan@gmail.com"
 ADMINS: Final[tuple[str]] = ("joan@gmail.com", )
 MAIL_USE_TLS: Final[bool] = True
 MAIL_DEBUG: Final[bool] = False

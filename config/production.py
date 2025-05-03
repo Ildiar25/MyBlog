@@ -25,6 +25,7 @@ MAIL_PORT: Final[int] = 587
 MAIL_USERNAME: Final[str] = "Your Email"
 MAIL_PASSWORD: Final[str] = "Your Password"
 DONT_REPLY_FROM: Final[str] = "An Email"
+WEB_OWNER: Final[str] = "Owner Mail"
 ADMINS: Final[tuple[str]] = ("Owner Mail", )
 MAIL_USE_TLS: Final[bool] = True
 MAIL_DEBUG: Final[bool] = False
