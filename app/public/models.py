@@ -58,11 +58,21 @@ class Comment(db.Model):
 
     def get_user_name(self) -> str:
         statement = select(User.fullname).where(User.user_id == self.user_id)
-        return db.session.scalar(statement)
+        username = db.session.scalar(statement)
+
+        if not username:
+            return "Anónimo"
+
+        return username
 
     def get_profile_pic(self) -> str:
         statement = select(User.profile_pic).where(User.user_id == self.user_id)
-        return db.session.scalar(statement)
+        profile_pic = db.session.scalar(statement)
+
+        if not profile_pic:
+            return "default_profile_pic.jpg"
+
+        return profile_pic
 
     @staticmethod
     def get_by_post_id(post_id: str) -> list[Comment]:
