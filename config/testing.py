@@ -20,6 +20,9 @@ SQLALCHEMY_TRACK_MODIFICATIONS: Final[bool] = True
 # App behaviour
 ITEMS_PER_PAGE = 10
 
+# Image Settings
+AVATAR_MAX_SIZE: Final[tuple[int, int]] = (128, 128)
+
 # Email settings
 MAIL_HOST: Final[str] = "localhost"
 MAIL_PORT: Final[int] = 1025
