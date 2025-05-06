@@ -21,8 +21,8 @@ def upgrade():
     with op.batch_alter_table('user', schema=None) as batch_op:
         batch_op.add_column(sa.Column('profile_pic', sa.String(), nullable=True))
 
-    # Set 'default_profile_pic.png' as default value
-    op.execute("UPDATE \"user\" SET profile_pic = 'default_profile_pic.png' WHERE profile_pic IS NULL")
+    # Set 'default_profile_pic.jpg' as default value
+    op.execute("UPDATE \"user\" SET profile_pic = 'default_profile_pic.jpg' WHERE profile_pic IS NULL")
 
     with op.batch_alter_table('user', schema=None) as batch_op:
         batch_op.alter_column('profile_pic', nullable=False)
