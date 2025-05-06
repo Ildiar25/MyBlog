@@ -26,7 +26,7 @@ def show_postlist() -> str:
     return render_template(template_name_or_list="posts.html", post_pagination=post_pagination)
 
 
-@admin.route("/admin/new/", methods=["GET", "POST"])
+@admin.route("/admin/post/new/", methods=["GET", "POST"])
 @login_required
 @admin_required
 def create_post() -> Response | str:
@@ -44,7 +44,7 @@ def create_post() -> Response | str:
     return render_template(template_name_or_list="create_post.html", form=form)
 
 
-@admin.route("/admin/posts/<string:slug>/", methods=["GET", "POST"])
+@admin.route("/admin/post/<string:slug>/", methods=["GET", "POST"])
 @login_required
 @admin_required
 def update_post(slug: str) -> Response | str:
@@ -64,7 +64,7 @@ def update_post(slug: str) -> Response | str:
     return render_template(template_name_or_list="create_post.html", form=form, post=post)
 
 
-@admin.route("/admin/delete/<string:slug>/", methods=["GET", "POST"])
+@admin.route("/admin/post/delete/<string:slug>/", methods=["GET", "POST"])
 @login_required
 @admin_required
 def delete_post(slug: str) -> Response:
@@ -105,7 +105,7 @@ def update_user(user_id: str) -> Response | str:
     return render_template(template_name_or_list="show_user.html", form=form, user=user)
 
 
-@admin.route("/admin/delete/<string:user_id>/", methods=["GET", "POST"])
+@admin.route("/admin/user/delete/<string:user_id>/", methods=["GET", "POST"])
 @login_required
 @admin_required
 def delete_user(user_id: str) -> Response:

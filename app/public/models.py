@@ -32,7 +32,6 @@ class Comment(db.Model):
         nullable=False,
         index=True
     )
-    # user_name: Mapped[str] = mapped_column(String(80), nullable=False)
     content: Mapped[str] = mapped_column(Text())
     created: Mapped[datetime]
     modified: Mapped[datetime]
@@ -158,6 +157,10 @@ class Post(db.Model):
     def delete(self) -> None:
         db.session.delete(self)
         db.session.commit()
+
+    def get_writter_name(self) -> str:
+        statement = select(User.fullname).where(User.user_id == self.user_id)
+        return db.session.scalar(statement)
 
     @staticmethod
     def get_by_date(date: str):
