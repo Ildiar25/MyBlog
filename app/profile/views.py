@@ -2,9 +2,10 @@ from pathlib import Path
 
 from flask import current_app, render_template, redirect, request, Response, url_for
 from flask_login import current_user, login_required
-from werkzeug.utils import secure_filename
+from werkzeug.datastructures import FileStorage
 
 from app.auth.models import User
+from app.common.image_tools import AvatarImage
 
 from . import profile
 from .forms import ProfileForm
@@ -24,23 +25,20 @@ def settings() -> Response | str:
 
     if form.validate_on_submit():
         fullname = form.fullname.data
-        profile_pic = user.profile_pic
 
         if "profile_pic" in request.files:
-            image = request.files["profile_pic"]
-
-            if image.filename:
-                profile_pic = secure_filename(image.filename)
+            file: FileStorage = request.files["profile_pic"]
+            if file.filename:
+                image = AvatarImage(file.stream).open().crop_image().with_size(current_app.config["AVATAR_MAX_SIZE"])
                 image_dir: Path = current_app.config["USER_MEDIA"]
 
                 if not image_dir.exists():
                     image_dir.mkdir(parents=True, exist_ok=True)
 
-                file_path = image_dir.joinpath(profile_pic)
-                image.save(file_path)
+                image.save(image_dir)
+                user.profile_pic = image.get_name()
 
         user.fullname = fullname
-        user.profile_pic = profile_pic
         user.save()
 
         return redirect(url_for("profile.index"))
