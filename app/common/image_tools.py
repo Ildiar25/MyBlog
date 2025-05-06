@@ -47,6 +47,7 @@ class AvatarImage(Picture):
             raise ValueError("Can not resize profile pic! Open image first!")
 
         self.image.thumbnail(size)
+
         return self
 
     def get_name(self) -> str:
@@ -55,8 +56,12 @@ class AvatarImage(Picture):
 
         name = "avatar"
         hexdigest = self.__hash_file()
-        fullname = secure_filename(name + "_" + hexdigest[:12] + "_" + "128.jpg")
+        size = min(self.image.size)
+
+        fullname = secure_filename(name + "_" + hexdigest[:12] + "_" + f"{size}.jpg")
+
         self.image.filename = fullname
+
         return fullname
 
     def save(self, new_path: Path) -> None:
@@ -65,6 +70,8 @@ class AvatarImage(Picture):
 
     def __hash_file(self) -> str:
         self.stream.seek(0)
+
         hasher = hashlib.sha256()
         hasher.update(self.stream.read())
+
         return hasher.hexdigest()
