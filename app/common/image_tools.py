@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 
 
 class Picture(ABC):
+    """"""
     @abstractmethod
     def get_name(self) -> str:
         ...
@@ -20,6 +21,7 @@ class Picture(ABC):
 
 
 class AvatarImage(Picture):
+    """"""
     def __init__(self, stream: IO[bytes] | BytesIO) -> None:
         self.stream = stream
         self.image: ImageFile.ImageFile | None = None
@@ -75,3 +77,7 @@ class AvatarImage(Picture):
         hasher.update(self.stream.read())
 
         return hasher.hexdigest()
+
+
+class PostImage(Picture):
+    pass

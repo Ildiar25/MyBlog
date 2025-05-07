@@ -17,7 +17,7 @@ SQLALCHEMY_DATABASE_URI: Final[str] = "sqlite:///../instance/database.db"
 SQLALCHEMY_TRACK_MODIFICATIONS: Final[bool] = False
 
 # App behaviour
-ITEMS_PER_PAGE = 10
+ITEMS_PER_PAGE = 5
 
 # Image Settings
 AVATAR_MAX_SIZE: Final[tuple[int, int]] = (320, 320)

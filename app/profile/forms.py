@@ -12,6 +12,7 @@ class ProfileForm(FlaskForm):
     profile_pic = FileField(
         label="Foto de Perfil", validators=[FileAllowed(upload_set=["jpg", "png"], message="Sólo se permite JPG o PNG")]
     )
+    about_me = TextAreaField(validators=[Length(max=512)])
     submit = SubmitField("Guardar")
 
     def __repr__(self) -> str:
@@ -19,6 +20,7 @@ class ProfileForm(FlaskForm):
             f"<class ProfileForm("
             f"fullname={repr(self.fullname.label)}, "
             f"profile_pic={repr(self.profile_pic.label)}, "
+            f"about_me={repr(self.profile_pic.label)}, "
             f"submit={repr(self.submit.label)}, "
             f")>"
         )
