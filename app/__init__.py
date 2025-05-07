@@ -8,7 +8,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.exceptions import InternalServerError, NotFound, Unauthorized
+from werkzeug.exceptions import InternalServerError, NotFound, Unauthorized, BadRequest
 
 from .common.filters import give_format_to_date
 
@@ -25,6 +25,10 @@ def __register_filters(app: Flask) -> None:
 
 
 def __register_errors_handler(app: Flask) -> None:
+
+    @app.errorhandler(400)
+    def bad_request(_: BadRequest) -> tuple[str, int]:
+        return render_template("bad_request.html"), 400
 
     @app.errorhandler(401)
     def unauthorized(_: Unauthorized) -> tuple[str, int]:
