@@ -13,25 +13,58 @@
 </header>
 <aside id="stat-sidebar">
     <section>
-        <img src="{{ url_for('media_profile', profile_pic=owner.profile_pic) }}">
+        <img src="{{ url_for('media_profile', profile_pic=owner.profile_pic) }}" width="50">
         <h2>Sobre mí</h2>
+        {% if owner.about_me %}
         <div>
-            # Info acerca del propietario #
+            {{ owner.about_me }}
         </div>
+        {% endif %}
     </section>
     <section>
-        <p># Barra de búsqueda #</p>
+        <h2>Mis redes sociales</h2>
+        <a href="#" target="_blank" aria-label="Linked In" title="Ir al LinkedIn de Joan Pastor">
+            <div style="background: #FFFFFF">
+                <svg width="28" height="28">
+                    <use xlink:href="static/assets/sprite.svg#linkedin"/>
+                </svg>
+            </div>
+        </a>
+        <a href="#" target="_blank" aria-label="Instagram" title="Ir a @mrphotoman25">
+            <div style="background: #FF0069">
+                <svg width="28" height="28">
+                    <use xlink:href="static/assets/sprite.svg#instagram"/>
+                </svg>
+            </div>
+        </a>
+        <a href="#" target="_blank" aria-label="GitHub" title="Ir a @Ildiar25">
+            <div style="background: #181717">
+                <svg width="28" height="28">
+                    <use xlink:href="static/assets/sprite.svg#github"/>
+                </svg>
+            </div>
+        </a>
     </section>
     <section></section>
 </aside>
 <section id="stat-articles">
-    <ul>
-        {% for post in post_pagination.items %}
-        <li><a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">{{ post.title }}</a></li>
-        {% else %}
-        <li>No hay entradas</li>
-        {% endfor %}
-    </ul>
+    {% for post in post_pagination.items %}
+    <div id="blog-card">
+        <div id="image-holder">
+            <img src="">
+        </div>
+        <div id="content-holder">
+            <h3>{{ post.title }}</h3>
+            <p id="post-details">
+                <a href="#">Por {{ post.get_writter_name() }}</a>
+                <a href="#">📝 {{ post.comments|length }}</a>
+            </p>
+            <a href="{{ url_for('public.show_posts', slug=post.slug_title) }}">Leer más</a>
+        </div>
+    </div>
+    {% else %}
+    <p>No hay entradas</p>
+    {% endfor %}
     <nav id="stat-navigation">
         {%- for page in post_pagination.iter_pages() %}
             {% if page %}
