@@ -1,3 +1,4 @@
+import base64
 from datetime import datetime
 from babel.dates import format_datetime
 
@@ -15,6 +16,9 @@ def give_format_to_date(value: datetime | None, date_format: str = "european") -
 
     elif date_format == "european":
         return format_datetime(value, format="dd/MM/yy, HH:mm", locale="es")
+
+    elif date_format == "url":
+        return base64.urlsafe_b64encode(value.strftime("%d-%m-%YT%H:%M:%S").encode()).decode()
 
     else:
         return format_datetime(value, format="dd-MM-yyyy'T'HH:mm:ssZ", locale="es")
