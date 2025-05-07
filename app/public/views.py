@@ -43,3 +43,9 @@ def archive(date: str) -> Response | str:
     posts = Post.get_by_date(date)
 
     return render_template(template_name_or_list="archive.html", posts=posts)
+
+
+@public.route("/profile/<string:user_email>")
+def profile(user_email: str) -> Response | str:
+    user = User.get_by_email(user_email)
+    return render_template(template_name_or_list="archive.html")
