@@ -38,6 +38,9 @@ def settings() -> Response | str:
                 image.save(image_dir)
                 user.profile_pic = image.get_name()
 
+        if form.about_me.data:
+            user.about_me = form.about_me.data
+
         user.fullname = fullname
         user.save()
 
