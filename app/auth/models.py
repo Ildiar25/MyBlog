@@ -24,6 +24,7 @@ class User(db.Model, UserMixin):
     password: Mapped[str] = mapped_column(String(128), nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean(), default=False)
     profile_pic: Mapped[str] = mapped_column(String(), default="default_profile_pic.jpg")
+    about_me: Mapped[str] = mapped_column(String(512), nullable=True)
     created: Mapped[datetime]
     modified: Mapped[datetime]
     last_login: Mapped[datetime | None]
