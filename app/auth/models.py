@@ -1,14 +1,18 @@
 from __future__ import annotations
 import uuid
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from flask_login import UserMixin
 from flask_sqlalchemy.pagination import Pagination
 from sqlalchemy import Boolean, select, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app import db
+
+if TYPE_CHECKING:
+    from app.public.models import Comment, Post
 
 
 class User(db.Model, UserMixin):
@@ -28,6 +32,21 @@ class User(db.Model, UserMixin):
     created: Mapped[datetime]
     modified: Mapped[datetime]
     last_login: Mapped[datetime | None]
+
+    # Relationship
+    comments: Mapped[list["Comment"]] = relationship(
+        argument="Comment",
+        back_populates="user",
+        order_by="asc(Comment.created)",
+        cascade="all, delete",
+        lazy="selectin"
+    )
+    posts: Mapped[list["Post"]] = relationship(
+        argument="Post",
+        back_populates="user",
+        cascade="all, delete",
+        lazy="selectin"
+    )
 
     def __init__(self, fullname: str, email: str) -> None:
         self.fullname = fullname

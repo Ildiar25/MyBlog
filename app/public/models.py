@@ -37,9 +37,13 @@ class Comment(db.Model):
     modified: Mapped[datetime]
 
     # Relationship
+    user: Mapped["User"] = relationship(
+        argument="User",
+        back_populates="comments"
+    )
     post: Mapped[Post] = relationship(
         argument="Post",
-        back_populates="comments"
+        back_populates="comments",
     )
 
     # Initializer
@@ -122,10 +126,16 @@ class Post(db.Model):
     modified: Mapped[datetime]
 
     # Relationship
+    user: Mapped["User"] = relationship(
+        argument="User",
+        back_populates="posts"
+    )
     comments: Mapped[list[Comment]] = relationship(
         argument="Comment",
         back_populates="post",
-        order_by="asc(Comment.created)"
+        order_by="asc(Comment.created)",
+        cascade="all, delete",
+        lazy="selectin"
     )
 
     # Initializer
