@@ -1,3 +1,7 @@
+import base64
+import binascii
+from datetime import datetime
+
 from flask import abort, current_app, redirect, render_template, request, Response, url_for
 from flask_login import current_user
 
@@ -36,13 +40,20 @@ def show_posts(slug: str):
     return render_template(template_name_or_list="show_post.html", post=post, form=form)
 
 
-@public.route("/p/archive/<string:date>")
-def archive(date: str) -> Response | str:
-    print(date)
-    print(type(date))
-    posts = Post.get_by_date(date)
+@public.route("/p/archive/<string:url_date>")
+def archive(url_date: str) -> Response | str:
+    try:
+        date_str = base64.urlsafe_b64decode(url_date).decode()
+        date = datetime.strptime(date_str, "%d-%m-%YT%H:%M:%S")
+        posts = Post.get_by_date(date)
 
-    return render_template(template_name_or_list="archive.html", posts=posts)
+    except (binascii.Error, UnicodeDecodeError) as bad_decode:
+        abort(400)
+
+    except ValueError as bad_date:
+        abort(400)
+
+    return render_template(template_name_or_list="archive.html", selected_date=date, posts=posts)
 
 
 @public.route("/profile/<string:user_email>")
