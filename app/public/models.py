@@ -1,5 +1,6 @@
 from __future__ import annotations
 import uuid
+from calendar import monthrange
 from datetime import datetime
 
 from flask_sqlalchemy.pagination import Pagination
@@ -183,8 +184,15 @@ class Post(db.Model):
         return db.session.scalar(statement)
 
     @staticmethod
-    def get_by_date(date: str):
-        return []
+    def get_by_date(date: datetime):
+        select_year = date.year
+        select_month = date.month
+
+        start_date = datetime(select_year, select_month, day=1)
+        end_date = datetime(select_year, select_month, day=monthrange(select_year, select_month)[1])
+
+        statement = select(Post).where(Post.created.between(start_date, end_date))
+        return db.session.scalars(statement).all()
 
     @staticmethod
     def get_by_slug(slug: str) -> Post | None:
