@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from flask import Response, send_from_directory
 
 from app import AppConfig, create_app
