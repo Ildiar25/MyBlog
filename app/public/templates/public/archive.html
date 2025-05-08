@@ -5,16 +5,19 @@
 {% block content %}
 
 <header>
-    <h1>{{ selected_date|datetime('british') }}</h1>
+    <h1>{{ selected_date|datetime('archive') }}</h1>
     <p></p>
 </header>
 <section>
     <div>
         {% for post in posts %}
-        <div>
+        <div class="post-card">
             <div>
-                {{ post.title }}
+                <img src="">
             </div>
+            <a href="{{ url_for('public.show_posts', slug=post.slug_title) }}" target="_blank">{{ post.title }}</a>
+            <blockquote>Jajas</blockquote>
+            <cite>Cita</cite>
         </div>
         {% endfor %}
     </div>

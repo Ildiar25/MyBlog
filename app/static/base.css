@@ -99,3 +99,8 @@ body {
     padding: 30px;
     background-color: #F9F9F9;
 }
+
+.post-card {
+    width: 150px;
+    height: 150px
+}
