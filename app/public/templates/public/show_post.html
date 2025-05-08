@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="comment-content">
-                <div>{{ comment.get_user_name() }} comentó: </div>
+                <div><a href="{{ url_for('public.profile', user_id=comment.user_id) }}">{{ comment.get_user_name() }}</a> comentó: </div>
                 <div class="stat-notes">{{ comment.created|datetime('british') }}</div>
             </div>
             <div>

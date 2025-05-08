@@ -56,7 +56,14 @@ def archive(url_date: str) -> Response | str:
     return render_template(template_name_or_list="archive.html", selected_date=date, posts=posts)
 
 
-@public.route("/profile/<string:user_email>")
-def profile(user_email: str) -> Response | str:
-    user = User.get_by_email(user_email)
-    return render_template(template_name_or_list="archive.html")
+@public.route("/profile/<string:user_id>")
+def profile(user_id: str) -> Response | str:
+    user = User.get_by_user_id(user_id)
+
+    if user is None:
+        abort(404)
+    if not current_user.is_anonymous:
+        if user.user_id == current_user.user_id:
+            return redirect(url_for(endpoint='profile.index'))
+
+    return render_template(template_name_or_list="public_profile.html", user=user)
